@@ -1,7 +1,7 @@
-// Доступ к приложению — 60 дней с первого входа на этом устройстве.
+// Доступ к приложению — 180 дней с первого входа на этом устройстве.
 (function () {
   var KEY = 'startpit-first-access';
-  var MAX_DAYS = 60;
+  var MAX_DAYS = 180;
   var now = Date.now();
   var first = null;
   try { first = localStorage.getItem(KEY); } catch (e) {}
