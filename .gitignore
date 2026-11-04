@@ -1,0 +1,6 @@
+.DS_Store
+**/.DS_Store
+.claude/
+# Рабочие материалы, не нужные на сайте
+menu-variants.html
+PROMPTS-covers.md

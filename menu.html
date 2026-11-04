@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#F4F0FA" />
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>Меню питания</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <style>
+    /* Фон как был на этой странице (светло-лавандовый), белые выпуклые карточки как на главной */
+    :root {
+      --bg: #F4F0FA;
+      --sh-dark: #D8D0E6;
+      --sh-light: #FFFFFF;
+      --card: #FFFFFF;
+      --card-sh: #E3DEEC;
+
+      --swamp-900: #34400c;
+      --swamp-700: #5a6c08;
+      --ink-soft: #66762c;
+
+      --accent: #8C74C6;
+      --accent-deep: #6A54A3;
+      --leaf: #6AA201;
+      --leaf-deep: #3F7C0D;
+      --cream: #FFF8EE;
+
+      --raised: 8px 8px 16px var(--sh-dark), -8px -8px 16px var(--sh-light);
+      --raised-sm: 4px 4px 8px var(--sh-dark), -4px -4px 8px var(--sh-light);
+      --card-pressed: inset 4px 4px 8px var(--card-sh), inset -4px -4px 8px #fff;
+      --card-raised: 4px 4px 8px var(--card-sh), -4px -4px 8px #fff;
+
+      --ease: cubic-bezier(.22, 1, .36, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #ECE7F5;
+      color: var(--swamp-900);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-frame {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background: var(--bg);
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .12);
+    }
+
+    header {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: calc(16px + env(safe-area-inset-top)) 16px 8px;
+      min-height: 64px;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 16px;
+      bottom: 4px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: var(--swamp-700);
+      text-decoration: none;
+      background: var(--card);
+      box-shadow: var(--raised-sm);
+      transition: box-shadow .3s var(--ease);
+    }
+
+    .back-button:active { box-shadow: var(--card-pressed); }
+
+    h1 { margin: 0; font-size: 24px; line-height: 32px; font-weight: 600; letter-spacing: -.02em; }
+
+    main {
+      padding: 16px 16px calc(112px + env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .intro {
+      margin: 0 4px;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      text-wrap: pretty;
+    }
+
+    /* ---------- Общая карточка ---------- */
+    .card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border: 0;
+      border-radius: 24px;
+      background: var(--card);
+      box-shadow: var(--raised);
+      color: inherit;
+      text-decoration: none;
+      text-align: left;
+      font: inherit;
+      width: 100%;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .3s var(--ease), transform .5s var(--ease);
+    }
+
+    .card:active { box-shadow: var(--card-pressed); transform: scale(.98); }
+    .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+    /* ---------- Кнопка «Видео о питании» ---------- */
+    /* Вся кнопка зелёная, как иконка приветствия на главной, с объёмным листочком */
+    .video-card {
+      min-height: 96px;
+      color: #fff;
+      background: var(--leaf);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .3),
+        inset 0 -3px 0 var(--leaf-deep),
+        var(--raised);
+    }
+
+    .video-card:active {
+      box-shadow: inset 4px 4px 8px var(--leaf-deep), inset -2px -2px 6px rgba(255, 255, 255, .25);
+    }
+
+    .leaf {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      background: url('images/3d-leaf.png') center / contain no-repeat;
+      filter: drop-shadow(0 6px 8px rgba(40, 70, 0, .35));
+    }
+
+    .video-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+    .video-title { font-size: 18px; line-height: 28px; font-weight: 600; letter-spacing: -.01em; }
+    .video-sub { font-size: 14px; line-height: 20px; font-weight: 500; color: rgba(255, 255, 255, .85); text-wrap: pretty; }
+
+    .round-arrow {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: 9999px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      color: #fff;
+      background: rgba(255, 255, 255, .18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+    }
+
+    /* ---------- Карточки меню ---------- */
+    .menu-card { align-items: stretch; }
+
+    /* Цифра в вдавленной лунке вместо обложки */
+    .num {
+      width: 96px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 12px 4px;
+      box-shadow: var(--card-pressed);
+      text-align: center;
+    }
+
+    .num b {
+      font-size: 30px;
+      line-height: 36px;
+      font-weight: 700;
+      letter-spacing: -.04em;
+      color: var(--swamp-900);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .num small {
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 600;
+      color: var(--ink-soft);
+    }
+
+    .num .accent { color: var(--leaf-deep); }
+
+    .info { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; flex: 1; }
+
+    .tag {
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 600;
+      color: var(--leaf-deep);
+    }
+
+    .ttl { font-size: 16px; line-height: 24px; font-weight: 600; letter-spacing: -.01em; text-wrap: balance; }
+    .desc { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-soft); text-wrap: pretty; }
+
+    .go {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 4px 4px 4px 12px;
+      border-radius: 9999px;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      color: var(--swamp-700);
+      box-shadow: var(--card-raised);
+    }
+
+    .go .arr {
+      width: 28px;
+      height: 28px;
+      border-radius: 9999px;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      color: #fff;
+      background: var(--accent);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -2px 0 var(--accent-deep);
+    }
+
+    /* ---------- Нижнее меню ---------- */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      display: flex;
+      justify-content: space-around;
+      background: var(--card);
+      padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 -8px 16px -4px var(--sh-dark);
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--swamp-700);
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .nav-ic {
+      width: 40px;
+      height: 32px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      color: var(--accent);
+      box-shadow: var(--card-pressed);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: box-shadow .3s linear; }
+      .card:active { transform: none; }
+    }
+  </style>
+  <script src="access-control.js"></script>
+    <link rel="stylesheet" href="assets/nav.css">
+</head>
+<body>
+  <div class="mobile-frame">
+    <header>
+      <a class="back-button" href="main.html" aria-label="Назад"><i class="ph-bold ph-caret-left"></i></a>
+      <h1>Меню питания</h1>
+    </header>
+
+    <main>
+      <button class="card video-card" id="nutrition-video-btn" type="button">
+        <span class="leaf" aria-hidden="true"></span>
+        <span class="video-text">
+          <span class="video-title">Видео о питании</span>
+          <span class="video-sub">Посмотрите перед тем, как открыть меню</span>
+        </span>
+        <span class="round-arrow"><i class="ph-bold ph-caret-right"></i></span>
+      </button>
+
+      <p class="intro">Меню и гайды по питанию.</p>
+
+      <a class="card menu-card" href="menu-1300.html">
+        <span class="num"><b>1300</b><small>ккал</small></span>
+        <span class="info">
+          <span class="tag">5 недель · 35 дней</span>
+          <span class="ttl">Меню 1300 калорий</span>
+          <span class="desc">Рецепты по дням, КБЖУ и список покупок</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+
+      <a class="card menu-card" href="menu-1400.html">
+        <span class="num"><b>1400</b><small>до 1500 ккал</small></span>
+        <span class="info">
+          <span class="tag">7 вариантов дня</span>
+          <span class="ttl">Рацион 1400–1500 ккал</span>
+          <span class="desc">Варианты дня с рецептами</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+
+      <a class="card menu-card" href="menu-1500.html">
+        <span class="num"><b>1500</b><small>до 1600 ккал</small></span>
+        <span class="info">
+          <span class="tag">4 варианта дня</span>
+          <span class="ttl">Рацион 1500–1600 ккал</span>
+          <span class="desc">Варианты дня с рецептами</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+
+      <a class="card menu-card" href="menu-1600.html">
+        <span class="num"><b>1600</b><small>до 1700 ккал</small></span>
+        <span class="info">
+          <span class="tag">4 варианта дня</span>
+          <span class="ttl">Рацион 1600–1700 ккал</span>
+          <span class="desc">Варианты дня с рецептами</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+
+      <a class="card menu-card" href="menu-1700.html">
+        <span class="num"><b>1700</b><small>до 1800 ккал</small></span>
+        <span class="info">
+          <span class="tag">4 варианта дня</span>
+          <span class="ttl">Рацион 1700–1800 ккал</span>
+          <span class="desc">Варианты дня с рецептами</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+
+      <a class="card menu-card" href="postnoe.html">
+        <span class="num"><b class="accent">3</b><small>недели</small></span>
+        <span class="info">
+          <span class="tag">Постное</span>
+          <span class="ttl">Постное меню</span>
+          <span class="desc">Рецепты с КБЖУ по неделям</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+
+      <a class="card menu-card" href="pitanie-1.html">
+        <span class="num"><b class="accent">1</b><small>часть</small></span>
+        <span class="info">
+          <span class="tag">Гайд · часть 1</span>
+          <span class="ttl">Питание. Часть 1</span>
+          <span class="desc">Обмен веществ, калории, БЖУ, белки, жиры, углеводы</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+
+      <a class="card menu-card" href="pitanie-2.html">
+        <span class="num"><b class="accent">2</b><small>часть</small></span>
+        <span class="info">
+          <span class="tag">Гайд · часть 2</span>
+          <span class="ttl">Питание. Часть 2</span>
+          <span class="desc">Вода, БАДы, FatSecret, режим, продукты, рестораны</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+
+      <a class="card menu-card" href="faq.html">
+        <span class="num"><b class="accent">30</b><small>вопросов</small></span>
+        <span class="info">
+          <span class="tag">Вопросы и ответы</span>
+          <span class="ttl">Ответы на вопросы</span>
+          <span class="desc">О тренировках и питании</span>
+          <span class="go">Открыть <span class="arr"><i class="ph-bold ph-arrow-right"></i></span></span>
+        </span>
+      </a>
+    </main>
+
+    <nav class="bottom-nav app-nav" role="navigation" aria-label="Основное меню">
+                <a href="main.html" class="nav-item">
+                    <span class="nav-ic"><svg viewBox="0 0 256 256" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg></span>
+                    <span>Главная</span>
+                </a>
+                <a href="https://t.me/MyuppyTeam" class="nav-item" target="_blank" rel="noopener">
+                    <span class="nav-ic"><svg viewBox="0 0 256 256" aria-hidden="true"><path d="M229.6,27.4a10,10,0,0,0-10.4-1.6L30.4,101.3a10,10,0,0,0,.9,18.8l57.4,18.4,22.7,70.1a10,10,0,0,0,16.6,3.9l31.6-30.9,51.8,38a10,10,0,0,0,15.7-5.8l36-174.5A10,10,0,0,0,229.6,27.4Z"/></svg></span>
+                    <span>Поддержка</span>
+                </a>
+            </nav>
+  </div>
+
+  <script src="assets/player.js"></script>
+  <script>
+    const NUTRITION_VIDEO = 'https://file-storage.bothelp.io/myuppy/f5/f5d6/f5d6f18fe0df0187c561b25cfae4b1f9/IMG_2753.mov';
+    document.getElementById('nutrition-video-btn').onclick = () => openPlayer(NUTRITION_VIDEO);
+  </script>
+</body>
+</html>

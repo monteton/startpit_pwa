@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="theme-color" content="#E2EEC6" />
+
+    <title>Питание + тренировки</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+    <style>
+        :root {
+            /* Салатовый фон (по образцу листа), белые выпуклые кнопки */
+            --bg: #E2EEC6;
+            --sh-dark: #BCCF94;
+            --sh-light: #F7FCE8;
+            --card: #FFFFFF;
+            --card-sh: #D6DEC2;
+
+            /* Салатовая зелень (по образцу листа) */
+            --swamp-900: #34400c;
+            --swamp-700: #5a6c08;
+            --swamp-500: #96a722;
+            --ink-soft: #66762c;
+
+            /* Акцент: мягкий фиолетовый */
+            --accent: #8C74C6;
+            --accent-deep: #6A54A3;
+
+            /* Свежая зелень листвы (по образцу) — иконка приветствия */
+            --leaf: #6AA201;
+            --leaf-deep: #3F7C0D;
+            --cream: #FFF8EE;
+
+            --raised: 8px 8px 16px var(--sh-dark), -8px -8px 16px var(--sh-light);
+            --raised-sm: 4px 4px 8px var(--sh-dark), -4px -4px 8px var(--sh-light);
+            --pressed: inset 4px 4px 8px var(--sh-dark), inset -4px -4px 8px var(--sh-light);
+            /* Тени внутри белой кнопки */
+            --card-pressed: inset 4px 4px 8px var(--card-sh), inset -4px -4px 8px #fff;
+            --card-raised: 4px 4px 8px var(--card-sh), -4px -4px 8px #fff;
+
+            --ease: cubic-bezier(.22, 1, .36, 1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #D6E4B6;
+            color: var(--swamp-900);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-frame {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: var(--bg);
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .12);
+            /* Экран без прокрутки: картинка внизу забирает оставшееся место */
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: calc(16px + env(safe-area-inset-top)) 16px 8px;
+            min-height: 64px;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 16px;
+            bottom: 4px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            color: var(--swamp-700);
+            text-decoration: none;
+            background: var(--card);
+            box-shadow: var(--raised-sm);
+            transition: box-shadow .3s var(--ease);
+        }
+
+        .back-button:active { box-shadow: var(--card-pressed); }
+
+        h1 {
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 600;
+            letter-spacing: -.02em;
+            margin: 0;
+            color: var(--swamp-900);
+        }
+
+        /* Длинное название не должно упираться в кнопку «Назад» */
+        header h1 { padding: 0 44px; text-align: center; }
+        @media (max-width: 400px) { header h1 { font-size: 21px; } }
+
+        main {
+            padding: 16px 16px calc(96px + env(safe-area-inset-bottom));
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        /* ---------- Кнопки ---------- */
+        .tile {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 120px;
+            padding: 16px;
+            border-radius: 24px;
+            background: var(--card);
+            box-shadow: var(--raised);
+            color: var(--swamp-900);
+            text-decoration: none;
+            user-select: none;
+            transition: box-shadow .3s var(--ease), transform .5s var(--ease);
+        }
+
+        .tile:active {
+            box-shadow: var(--card-pressed);
+            transform: scale(.98);
+        }
+
+        .tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+        .tile-label {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+            letter-spacing: -.01em;
+            text-wrap: balance;
+        }
+
+        /* Лунка с иконкой: вдавлена в кнопку */
+        .well {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-size: 28px;
+            color: var(--swamp-700);
+            box-shadow: var(--card-pressed);
+        }
+
+        /* Двухцветные иконки: заливка фиолетовая, контур болотный */
+        .well .ph-duotone::before { color: var(--accent); opacity: .9; }
+
+        /* ---------- Широкая кнопка приветствия ---------- */
+        .tile-wide {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 96px;
+        }
+
+        .tile-wide .badge {
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-size: 28px;
+            color: var(--cream);
+            background: var(--leaf);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .35),
+                inset 0 -2px 0 var(--leaf-deep),
+                4px 4px 8px var(--card-sh),
+                -4px -4px 8px #fff;
+        }
+
+        .tile-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+        .tile-wide .tile-label { font-size: 18px; line-height: 28px; }
+        .tile-sub { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-soft); }
+
+        .tile-arrow {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 9999px;
+            display: grid;
+            place-items: center;
+            font-size: 18px;
+            color: var(--accent);
+            box-shadow: var(--card-raised);
+        }
+
+        /* ---------- Картинка в вылепленной рамке ---------- */
+        .food-frame {
+            margin: 16px 0 0;
+            flex: 1 1 0;
+            min-height: 120px;
+            position: relative;
+            padding: 8px;
+            border-radius: 24px;
+            background: var(--card);
+            box-shadow: var(--raised);
+        }
+
+        .food-image {
+            position: absolute;
+            inset: 8px;
+            width: calc(100% - 16px);
+            height: calc(100% - 16px);
+            object-fit: cover;
+            object-position: 50% 45%;
+            display: block;
+            border-radius: 16px;
+        }
+
+        /* ---------- Нижнее меню ---------- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            display: flex;
+            justify-content: space-around;
+            background: var(--card);
+            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 -8px 16px -4px var(--sh-dark), 0 -1px 0 var(--sh-light);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--swamp-700);
+            text-decoration: none;
+            font-size: 12px;
+            line-height: 16px;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        .nav-item .nav-ic {
+            width: 40px;
+            height: 32px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            color: var(--accent);
+            box-shadow: var(--card-pressed);
+        }
+
+        /* ---------- Компактный экран без прокрутки ----------
+           Плитки ниже, картинка внизу занимает остаток высоты и обрезается по краям */
+        main { padding-top: 12px; }
+        .menu-grid { gap: 12px; }
+        .tile { min-height: 96px; padding: 12px 14px; gap: 8px; border-radius: 20px; }
+        .well { width: 40px; height: 40px; font-size: 24px; }
+        .tile-wide { min-height: 80px; }
+        .tile-wide .badge { width: 48px; height: 48px; font-size: 24px; }
+        .food-frame { margin-top: 12px; min-height: 0; }
+        /* На совсем низких экранах картинке не хватает места — прячем её */
+        @media (max-height: 779px) { .food-frame { display: none; } }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tile { transition: box-shadow .3s linear; }
+            .tile:active { transform: none; }
+        }
+    </style>
+    <script src="access-control.js"></script>
+    <link rel="stylesheet" href="assets/nav.css">
+</head>
+
+<body>
+
+    <div class="mobile-frame">
+        <header>
+            <a href="main.html" class="back-button" aria-label="Назад"><i class="ph-bold ph-caret-left"></i></a>
+            <h1>Питание + тренировки</h1>
+        </header>
+
+        <main>
+            <nav class="menu-grid" aria-label="Разделы">
+                <a href="greeting.html" class="tile tile-wide">
+                    <span class="badge"><i class="ph-fill ph-hand-waving"></i></span>
+                    <span class="tile-text">
+                        <span class="tile-label">Приветствие и разъяснения</span>
+                        <span class="tile-sub">Начните отсюда</span>
+                    </span>
+                    <span class="tile-arrow"><i class="ph-bold ph-caret-right"></i></span>
+                </a>
+
+                <a href="menu.html" class="tile">
+                    <span class="well"><i class="ph-duotone ph-cooking-pot"></i></span>
+                    <span class="tile-label">Меню питания</span>
+                </a>
+
+                <a href="trenirovki.html" class="tile">
+                    <span class="well"><i class="ph-duotone ph-barbell"></i></span>
+                    <span class="tile-label">Тренировки</span>
+                </a>
+
+                <a href="foodvideo.html" class="tile">
+                    <span class="well"><i class="ph-duotone ph-monitor-play"></i></span>
+                    <span class="tile-label">Полезное видео</span>
+                </a>
+
+                <a href="cal.html" class="tile">
+                    <span class="well"><i class="ph-duotone ph-fire"></i></span>
+                    <span class="tile-label">Подсчёт калорий</span>
+                </a>
+
+                <a href="kzbu.html" class="tile">
+                    <span class="well"><i class="ph-duotone ph-user-focus"></i></span>
+                    <span class="tile-label">Индивидуальный</span>
+                </a>
+
+                <a href="individual.html" class="tile">
+                    <span class="well"><i class="ph-duotone ph-carrot"></i></span>
+                    <span class="tile-label">Рацион</span>
+                </a>
+
+                <a href="recepty.html" class="tile">
+                    <span class="well"><i class="ph-duotone ph-chef-hat"></i></span>
+                    <span class="tile-label">Бонусные рецепты</span>
+                </a>
+
+                <a href="chitmil.html" class="tile">
+                    <span class="well"><i class="ph-duotone ph-pizza"></i></span>
+                    <span class="tile-label">Читмил</span>
+                </a>
+            </nav>
+
+            <div class="food-frame">
+                <img src="food.png" alt="Тарелка с полезной едой" class="food-image">
+            </div>
+        </main>
+
+        <nav class="bottom-nav app-nav" role="navigation" aria-label="Основное меню">
+                <a href="main.html" class="nav-item" aria-current="page">
+                    <span class="nav-ic"><svg viewBox="0 0 256 256" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg></span>
+                    <span>Главная</span>
+                </a>
+                <a href="https://t.me/MyuppyTeam" class="nav-item" target="_blank" rel="noopener">
+                    <span class="nav-ic"><svg viewBox="0 0 256 256" aria-hidden="true"><path d="M229.6,27.4a10,10,0,0,0-10.4-1.6L30.4,101.3a10,10,0,0,0,.9,18.8l57.4,18.4,22.7,70.1a10,10,0,0,0,16.6,3.9l31.6-30.9,51.8,38a10,10,0,0,0,15.7-5.8l36-174.5A10,10,0,0,0,229.6,27.4Z"/></svg></span>
+                    <span>Поддержка</span>
+                </a>
+            </nav>
+    </div>
+
+</body>
+
+</html>

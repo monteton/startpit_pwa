@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <title>Меню питания</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #dcdcdc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .mobile-frame {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            background-color: #F9F4F2;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            padding-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 22px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        main {
+            padding: 10px 16px;
+            padding-bottom: calc(20px + 66px);
+            flex-grow: 1;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        main::-webkit-scrollbar {
+            display: none;
+        }
+
+        .calorie-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .calorie-btn {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 18px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 20px 12px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calorie-btn i {
+            font-size: 22px;
+            color: #b4f24c;
+        }
+
+        .calorie-btn:active {
+            transform: scale(0.97);
+            background-color: #f0f0f0;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid #E5E5EA;
+            padding-top: 10px;
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            height: 66px;
+            box-sizing: border-box;
+            border-radius: 18px 18px 0 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #8A8A8E;
+            text-decoration: none;
+            font-size: 10px;
+        }
+
+        .nav-item i {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #8d8f8a;
+        }
+    </style>
+    <script src="access-control.js"></script>
+    <link rel="stylesheet" href="assets/nav.css">
+</head>
+
+<body>
+
+    <div class="mobile-frame">
+        <header>
+            <a href="main.html" class="back-button" aria-label="Назад">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+            <h1>Меню питания</h1>
+        </header>
+
+        <main>
+            <div class="calorie-grid">
+                <a class="calorie-btn" href="view-pdf.html?file=pdfs/1300call.pdf&back=food.html&title=Меню 1300 ккал">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>1300 ккал</span>
+                </a>
+                <a class="calorie-btn"
+                    href="view-pdf.html?file=pdfs/Menyu_1400-1500_kaloriy.pdf&back=food.html&title=Меню 1400–1500 ккал">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>1400–1500 ккал</span>
+                </a>
+                <a class="calorie-btn"
+                    href="view-pdf.html?file=pdfs/Menyu1500-1600_kaloriy.pdf&back=food.html&title=Меню 1500–1600 ккал">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>1500–1600 ккал</span>
+                </a>
+                <a class="calorie-btn"
+                    href="view-pdf.html?file=pdfs/Menyu_1600-1700_kaloriy.pdf&back=food.html&title=Меню 1600–1700 ккал">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>1600–1700 ккал</span>
+                </a>
+                <a class="calorie-btn"
+                    href="view-pdf.html?file=pdfs/Menyu_1700-1800_kaloriy.pdf&back=food.html&title=Меню 1700–1800 ккал">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>1700–1800 ккал</span>
+                </a>
+                <a class="calorie-btn" href="view-pdf.html?file=pdfs/postnoe.pdf&back=food.html&title=Постное меню">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Постное меню</span>
+                </a>
+                <a class="calorie-btn"
+                    href="view-pdf.html?file=pdfs/Pitanie_chast__1.pdf&back=food.html&title=Питание — часть 1">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Питание часть 1</span>
+                </a>
+                <a class="calorie-btn"
+                    href="view-pdf.html?file=pdfs/Pitanie_chast__2.pdf&back=food.html&title=Питание — часть 2">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Питание часть 2</span>
+                </a>
+                <a class="calorie-btn" href="view-pdf.html?file=pdfs/faq.pdf&back=food.html&title=Ответы на вопросы">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>FAQ</span>
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <nav class="bottom-nav app-nav" role="navigation" aria-label="Основное меню">
+                <a href="main.html" class="nav-item">
+                    <span class="nav-ic"><svg viewBox="0 0 256 256" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg></span>
+                    <span>Главная</span>
+                </a>
+                <a href="https://t.me/MyuppyTeam" class="nav-item" target="_blank" rel="noopener">
+                    <span class="nav-ic"><svg viewBox="0 0 256 256" aria-hidden="true"><path d="M229.6,27.4a10,10,0,0,0-10.4-1.6L30.4,101.3a10,10,0,0,0,.9,18.8l57.4,18.4,22.7,70.1a10,10,0,0,0,16.6,3.9l31.6-30.9,51.8,38a10,10,0,0,0,15.7-5.8l36-174.5A10,10,0,0,0,229.6,27.4Z"/></svg></span>
+                    <span>Поддержка</span>
+                </a>
+            </nav>
+        </footer>
+    </div>
+
+</body>
+
+</html>
