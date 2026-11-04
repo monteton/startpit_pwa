@@ -1,12 +1,12 @@
 {
-    "name": "Марафон питания",
-    "short_name": "Питание",
-    "description": "Ваш путь к правильному питанию и здоровью",
+    "name": "Питание + тренировки",
+    "short_name": "Питание+",
+    "description": "Питание, тренировки на 30 дней и рецепты",
     "start_url": "./index.html",
-    "id": "/pitanie",
+    "id": "/startpit-pwa",
     "display": "standalone",
-    "background_color": "#101010",
-    "theme_color": "#101010",
+    "background_color": "#141a0f",
+    "theme_color": "#141a0f",
     "orientation": "portrait",
     "icons": [
         {
@@ -33,5 +33,7 @@
             "type": "image/png",
             "purpose": "maskable"
         }
-    ]
+    ],
+    "scope": "./",
+    "lang": "ru"
 }
